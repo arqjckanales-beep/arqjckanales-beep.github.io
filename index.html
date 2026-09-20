@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JC Studio | Calculadora de construcción</title>
+<style>
+:root{--b:#1d5578;--b2:#123d59;--g:#1d7650;--bg:#f4f6f7;--t:#1e2932;--m:#66727d;--l:#dce3e8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:Arial,sans-serif}.wrap{max-width:980px;margin:auto;padding:22px}
+header{background:linear-gradient(135deg,var(--b2),var(--b));color:#fff}.brand{font-size:28px;font-weight:800}.sub{margin-top:5px;opacity:.9}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px}.card{background:#fff;border:1px solid var(--l);border-radius:16px;padding:22px;box-shadow:0 6px 24px #0f283c10}
+h2{font-size:20px;margin:0 0 17px}.intro{color:var(--m);font-size:14px;line-height:1.5;margin-top:-8px}
+label{display:block;font-weight:700;font-size:13px;margin:14px 0 7px}input,select{width:100%;padding:12px;border:1px solid #c8d2d9;border-radius:9px;background:#fff;font-size:16px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{width:100%;border:0;border-radius:9px;padding:13px 15px;font-size:15px;font-weight:700;cursor:pointer}.primary{background:var(--b);color:#fff;margin-top:18px}.secondary{background:#edf2f5;color:var(--b2);margin-top:10px}.whatsapp{background:var(--g);color:#fff;margin-top:12px}
+.error{color:#a12b2b;font-size:13px;min-height:18px;margin-top:7px}.estimate{background:#f2f7fa;border:1px solid #d3e2eb;border-radius:13px;padding:17px}.label{color:var(--m);font-size:13px}.total{font-size:38px;font-weight:800;color:var(--b2);margin:5px 0}.range{color:var(--m);font-size:14px}
+table{width:100%;border-collapse:collapse;margin-top:15px;font-size:14px}td{padding:8px 2px;border-bottom:1px solid var(--l)}td:last-child{text-align:right;font-weight:700}
+.lead{margin-top:18px;border:1px solid #d8e4dc;background:#f3f9f5;border-radius:13px;padding:16px}.lead h3{margin:0 0 8px;font-size:17px;color:var(--g)}.small{font-size:12px;color:var(--m);line-height:1.5}
+.services{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.pill{background:#edf2f5;padding:7px 9px;border-radius:99px;font-size:12px}footer{text-align:center;color:var(--m);font-size:12px;padding:0 22px 28px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.row{grid-template-columns:1fr}.total{font-size:32px}.wrap{padding:15px}}@media print{header{background:#fff;color:#000}.card{box-shadow:none}.screen-only{display:none!important}body{background:#fff}}
+</style></head><body>
+<header><div class="wrap"><div class="brand">JC Studio</div><div class="sub">Calculadora referencial de costo de construcción · El Salvador</div></div></header>
+<main class="wrap layout">
+<section class="card"><h2>Calcula una inversión aproximada</h2>
+<p class="intro">Ingresa los datos básicos de tu proyecto. Obtendrás una estimación preliminar y podrás solicitar una evaluación profesional por WhatsApp.</p>
+<form id="calcForm">
+<label for="name">Tu nombre</label><input id="name" maxlength="80" placeholder="Ej. Carlos Martínez">
+<div class="row"><div><label for="phone">WhatsApp / teléfono</label><input id="phone" maxlength="25" placeholder="Ej. 7000-0000"></div>
+<div><label for="email">Correo (opcional)</label><input id="email" type="email" maxlength="120" placeholder="nombre@correo.com"></div></div>
+<label for="area">Área de construcción (m²)</label><input id="area" type="number" min="10" max="10000" step="1" value="100">
+<div class="row"><div><label for="type">Tipo de proyecto</label><select id="type"><option value="1">Vivienda</option><option value="1.06">Casa de 2 niveles</option><option value="1.10">Oficina</option><option value="1.15">Local comercial</option><option value="1.20">Acabados especiales</option></select></div>
+<div><label for="quality">Nivel de acabados</label><select id="quality"><option value="450">Económico · $450/m²</option><option value="650" selected>Medio · $650/m²</option><option value="900">Alto · $900/m²</option><option value="1200">Premium · $1,200/m²</option></select></div></div>
+<div class="row"><div><label for="levels">Niveles</label><select id="levels"><option value="1">1 nivel</option><option value="2">2 niveles</option><option value="3">3 niveles</option></select></div>
+<div><label for="site">Condición del terreno</label><select id="site"><option value="1">Normal</option><option value="1.05">Pendiente moderada +5%</option><option value="1.12">Pendiente fuerte +12%</option><option value="1.18">Compleja +18%</option></select></div></div>
+<label for="custom">Costo base personalizado ($/m²), opcional</label><input id="custom" type="number" min="0" max="10000" step="10" placeholder="Dejar vacío para usar el nivel seleccionado">
+<div id="error" class="error"></div><button class="primary" type="submit">CALCULAR ESTIMACIÓN</button></form>
+<button class="secondary screen-only" type="button" id="printBtn">IMPRIMIR / GUARDAR PDF</button>
+<p class="small" style="margin-top:14px">Los valores son referenciales y deben ajustarse con planos, especificaciones, cantidades de obra, precios de proveedores y condiciones reales del proyecto.</p>
+</section>
+<section class="card"><h2>Resultado estimado</h2>
+<div class="estimate" aria-live="polite"><div class="label">Inversión aproximada</div><div id="total" class="total">$65,000</div><div id="range" class="range">Rango orientativo: $58,500 – $71,500</div></div>
+<table><tbody id="breakdown"></tbody></table>
+<div class="lead"><h3>¿Quieres conocer el costo real de tu proyecto?</h3>
+<p style="margin:0;font-size:14px;line-height:1.45">JC Studio puede ayudarte con anteproyecto, planos arquitectónicos, modelado 3D, renders y documentación para tu proyecto.</p>
+<div class="services"><span class="pill">Planos</span><span class="pill">3D / BIM</span><span class="pill">Renders</span><span class="pill">Presupuesto</span></div>
+<button class="whatsapp" type="button" id="waBtn">SOLICITAR EVALUACIÓN POR WHATSAPP</button></div>
+</section></main>
+<footer>JC Studio · Arquitectura y visualización · El Salvador · WhatsApp 7270-0938</footer>
+<script>
+(function(){const P=[["Preliminares y obras provisionales",.05],["Cimentación y estructura",.25],["Mampostería y divisiones",.12],["Cubierta / impermeabilización",.08],["Puertas y ventanas",.07],["Instalación eléctrica",.08],["Instalación hidráulica y sanitaria",.07],["Acabados",.22],["Obras exteriores",.06]];
+const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(n);let last={};
+function calc(){let a=Number($("area").value),c=Number($("custom").value)||0;if(!Number.isFinite(a)||a<10||a>10000){$("error").textContent="Ingresa un área entre 10 y 10,000 m².";return false}if(c<0||c>10000){$("error").textContent="El costo personalizado debe estar entre $0 y $10,000/m².";return false}$("error").textContent="";let t=Number($("type").value),q=Number($("quality").value),l=Number($("levels").value),s=Number($("site").value),f=l===1?1:l===2?1.06:1.12,b=c>0?c:q,u=b*t*s*f,total=a*u;last={a,total,lo:total*.9,hi:total*1.1};$("total").textContent=money(total);$("range").textContent="Rango orientativo: "+money(last.lo)+" – "+money(last.hi);$("breakdown").innerHTML=P.map(x=>"<tr><td>"+x[0]+"</td><td>"+money(total*x[1])+"</td></tr>").join("");return true}
+$("calcForm").addEventListener("submit",e=>{e.preventDefault();calc()});$("printBtn").addEventListener("click",()=>window.print());
+$("waBtn").addEventListener("click",()=>{if(!calc())return;let m="Hola JC Studio. Quiero solicitar una evaluación para mi proyecto.%0A%0ANombre: "+encodeURIComponent($("name").value||"No indicado")+"%0AWhatsApp: "+encodeURIComponent($("phone").value||"No indicado")+"%0ACorreo: "+encodeURIComponent($("email").value||"No indicado")+"%0AÁrea: "+last.a+" m²%0ACosto referencial: "+encodeURIComponent(money(last.total))+"%0ARango: "+encodeURIComponent(money(last.lo)+" – "+money(last.hi));window.open("https://wa.me/50372700938?text="+m,"_blank")});calc()})();
+</script></body></html>
