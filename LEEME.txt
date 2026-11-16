@@ -1,0 +1,22 @@
+JC STUDIO — PAQUETE PARA GITHUB PAGES
+
+CONTENIDO
+- index.html: portal JC Studio actualizado con el acceso a Construction Tracker.
+- tracker/index.html: aplicación JC Studio Construction Tracker.
+
+INSTALACIÓN
+1. Descargue y descomprima este paquete.
+2. Abra el repositorio de GitHub que publica su portal.
+3. En la raíz del repositorio, cargue/reemplace index.html.
+4. Cargue la carpeta tracker completa, conservando la ruta tracker/index.html.
+5. Confirme los cambios (Commit changes).
+6. Espere la publicación de GitHub Pages.
+
+La dirección del módulo será: https://arqjckanales-beep.github.io/tracker/
+Si el repositorio utiliza un dominio o subruta diferente, el enlace relativo tracker/ seguirá apuntando a la carpeta dentro del portal.
+
+IMPORTANTE SOBRE PRIVACIDAD
+Esta versión es un prototipo estático. Los datos se guardan en el almacenamiento local del navegador (localStorage); no hay inicio de sesión, base de datos compartida ni sincronización entre dispositivos. Cualquier persona que conozca la dirección puede abrir la herramienta y los datos de cada navegador quedan separados. No ingresar información confidencial, datos de clientes, contratos ni presupuestos reales sensibles hasta implementar autenticación y backend seguro.
+
+RESPALDO
+Antes de sustituir una versión existente, descargue un respaldo JSON desde Configuración y datos.
