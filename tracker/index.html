@@ -125,10 +125,17 @@ async function jcOpenProject(id,name){
  jcProjectId=id;jcProjectName=name;jcStatus('Cargando '+name+'…');
  let result;
  try{
-   result=await jcClient.from('project_settings').select('setting_value').eq('project_id',id).eq('setting_key','tracker_state').maybeSingle();
+   const readQuery=jcClient.from('project_settings').select('setting_value').eq('project_id',id).eq('setting_key','tracker_state').maybeSingle();
+   let timeoutId;
+   try{
+     result=await Promise.race([
+       readQuery,
+       new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(new Error('Tiempo de espera agotado: Supabase no respondió al consultar project_settings después de 15 segundos. La conexión del navegador o la política SELECT de project_settings puede estar bloqueando la lectura.')),15000)})
+     ]);
+   }finally{clearTimeout(timeoutId)}
  }catch(err){
    console.error('Supabase read project_settings:',err);
-   jcGate(`<h2>No se pudo cargar el proyecto</h2><p>${jcError(err)}</p><button class="btn" onclick="jcLoadProjects()">Volver</button>`);return;
+   jcGate(`<h2>No se pudo cargar el proyecto</h2><p>${jcError(err)}</p><p style="font-size:12px;color:#647887">El proyecto y sus registros no se han eliminado. Puedes volver a la lista e intentar de nuevo.</p><button class="btn primary" onclick="jcLoadProjects()">Volver a proyectos</button>`);return;
  }
  const {data,error}=result;
  if(error){console.error('Supabase read project_settings:',error);jcGate(`<h2>No se pudo cargar el proyecto</h2><p>${jcError(error)}</p><button class="btn" onclick="jcLoadProjects()">Volver</button>`);return}
